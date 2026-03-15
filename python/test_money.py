@@ -2,28 +2,43 @@ import unittest
 
 
 class Money:
-    def __init__(self, amount: int, currency: str) -> None:
+    amount: float
+    currency: str
+
+    def __init__(self, amount: float, currency: str) -> None:
         self.amount = amount
         self.currency = currency
 
-    def times(self, multiplier: int) -> "Money":
+    def __eq__(self, value) -> bool:
+        if not isinstance(value, Money):
+            return False
+        return self.amount == value.amount and self.currency == value.currency
+
+    def times(self, multiplier: float) -> "Money":
         return Money(self.amount * multiplier, self.currency)
+
+    def divide(self, divisor: int) -> "Money":
+        return Money(self.amount / divisor, self.currency)
 
 
 class TestMoney(unittest.TestCase):
     def testMultiplication(self):
         fiver = Money(5, "USD")
-        tenner = fiver.times(2)
+        tenner = Money(10, "USD")
 
-        self.assertEqual(tenner.amount, 10)
-        self.assertEqual(tenner.currency, "USD")
+        self.assertEqual(fiver.times(2), tenner)
 
     def testMultiplicationEUR(self):
         fiver = Money(10, "EUR")
-        tenner = fiver.times(2)
+        tenner = Money(20, "EUR")
 
-        self.assertEqual(tenner.amount, 20)
-        self.assertEqual(tenner.currency, "EUR")
+        self.assertEqual(fiver.times(2), tenner)
+
+    def testDivision(self):
+        og = Money(4002, "KRW")
+        quarter = Money(1000.5, "KRW")
+
+        self.assertEqual(og.divide(4), quarter)
 
 
 if __name__ == "__main__":
