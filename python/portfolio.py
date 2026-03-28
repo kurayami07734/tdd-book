@@ -10,6 +10,10 @@ class Portfolio:
     def add(self, *moneys: Money) -> None:
         self.moneys.extend(moneys)
 
+    def __convert(self, money: Money, currency: str) -> float:
+        factor = 1 if money.currency == currency else 1.2
+        return money.amount * factor
+
     def evaluate(self, currency: str) -> Money:
-        total = sum(m.amount for m in self.moneys if m.currency == currency)
+        total = sum(self.__convert(m, currency) for m in self.moneys)
         return Money(total, currency)

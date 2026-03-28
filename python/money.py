@@ -6,6 +6,9 @@ class Money:
         self.amount = amount
         self.currency = currency
 
+    def __str__(self):
+        return f"{self.currency} {self.amount:0.2f}"
+
     def __eq__(self, value) -> bool:
         if not isinstance(value, Money):
             return False

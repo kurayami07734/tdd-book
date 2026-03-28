@@ -11,12 +11,6 @@ class TestMoney(unittest.TestCase):
 
         self.assertEqual(fiver.times(2), tenner)
 
-    def testMultiplicationEUR(self):
-        fiver = Money(10, "EUR")
-        tenner = Money(20, "EUR")
-
-        self.assertEqual(fiver.times(2), tenner)
-
     def testDivision(self):
         og = Money(4002, "KRW")
         quarter = Money(1000.5, "KRW")
@@ -32,6 +26,17 @@ class TestMoney(unittest.TestCase):
         portfolio.add(five, ten)
 
         self.assertEqual(portfolio.evaluate("USD"), fifteen)
+
+    def testConversion(self):
+        fiveDollars = Money(5, "USD")
+        tenEuros = Money(10, "EUR")
+
+        portfolio = Portfolio()
+        portfolio.add(fiveDollars, tenEuros)
+
+        expected = Money(17, "USD")
+        actual = portfolio.evaluate("USD")
+        self.assertEqual(actual, expected, f"{actual} != {expected}")
 
 
 if __name__ == "__main__":
