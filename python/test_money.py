@@ -1,38 +1,7 @@
 import unittest
 
-
-class Money:
-    amount: float
-    currency: str
-
-    def __init__(self, amount: float, currency: str) -> None:
-        self.amount = amount
-        self.currency = currency
-
-    def __eq__(self, value) -> bool:
-        if not isinstance(value, Money):
-            return False
-        return self.amount == value.amount and self.currency == value.currency
-
-    def times(self, multiplier: float) -> "Money":
-        return Money(self.amount * multiplier, self.currency)
-
-    def divide(self, divisor: int) -> "Money":
-        return Money(self.amount / divisor, self.currency)
-
-
-class Portfolio:
-    moneys: list[Money]
-
-    def __init__(self) -> None:
-        self.moneys = []
-
-    def add(self, *moneys: Money) -> None:
-        self.moneys.extend(moneys)
-
-    def evaluate(self, currency: str) -> Money:
-        total = sum(m.amount for m in self.moneys if m.currency == currency)
-        return Money(total, currency)
+from money import Money
+from portfolio import Portfolio
 
 
 class TestMoney(unittest.TestCase):
